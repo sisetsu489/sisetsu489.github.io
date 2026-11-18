@@ -1,0 +1,1473 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>クラウド型 施設利用予約・管理システム | 導入のご案内</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* クリック可能な画像スタイリング */
+      .zoomable-img {
+        cursor: zoom-in;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+        border: 1px solid #cbd5e1;
+      }
+
+      .zoomable-img:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* モーダル背景（暗転エリア） */
+      .img-modal {
+        display: none;
+        position: fixed;
+        z-index: 99999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(4px); /* 背景を微うっすらぼかす効果 */
+        justify-content: center;
+        align-items: center;
+        cursor: zoom-out;
+        animation: fadeIn 0.25s ease;
+      }
+
+      /* 拡大画像本体 */
+      .img-modal-content {
+        max-width: 90%;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        animation: zoomIn 0.25s ease;
+      }
+
+      /* 閉じる（×）ボタン */
+      .img-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: #fff;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      /* 表示アニメーション */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.9);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800 font-sans antialiased">
+    <!-- ヘッダー（★ロゴ画像へ差し替え完了） -->
+    <header
+      class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between"
+      >
+        <div class="flex items-center">
+          <!-- ★ここにロゴ画像を配置しています（画像パスやURLを書き換えてください） -->
+          <a href="#">
+            <img
+              src="<?!= include('logo_img'); ?>"
+              alt="施設予約システム PRO"
+              class="h-9 md:h-11 w-auto object-contain"
+            />
+          </a>
+        </div>
+        <nav
+          class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-600"
+        >
+          <a href="#features" class="hover:text-blue-600">８つの強み</a>
+          <a href="#facilities" class="hover:text-blue-600">対象施設</a>
+          <a href="#pricing" class="hover:text-blue-600">料金プラン</a>
+          <a href="#flow" class="hover:text-blue-600">導入の流れ</a>
+          <a href="#screens" class="hover:text-blue-600">画面イメージ</a>
+          <a href="#faq" class="hover:text-blue-600">FAQ</a>
+        </nav>
+        <a
+          href="#contact"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm px-4 py-2 rounded-lg transition shadow-sm"
+        >
+          14日間無料でお試し
+        </a>
+      </div>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section
+      class="bg-gradient-to-b from-blue-50 via-indigo-50/30 to-slate-50 py-16 md:py-24"
+    >
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="flex flex-wrap justify-center gap-2 mb-4">
+          <span
+            class="inline-block bg-blue-100 text-blue-700 font-semibold text-xs px-3 py-1 rounded-full"
+          >
+            公共施設・民間レンタルスペース・会議室対応
+          </span>
+          <span
+            class="inline-block bg-emerald-100 text-emerald-800 font-semibold text-xs px-3 py-1 rounded-full"
+          >
+            買い切り 49,800円 / 月額・更新料0円
+          </span>
+        </div>
+        <div class="text-center py-12 px-4">
+          <!-- メインコピー -->
+          <h1
+            class="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight mb-4"
+          >
+            施設予約をDXで<br class="sm:hidden" />
+            <span class="text-blue-600">もっとシンプルに</span>
+          </h1>
+
+          <!-- サブコピー -->
+          <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
+            紙台帳の手間や予約トラブルを解消。現場に寄り添う直感的な予約システム。
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            href="#contact"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-xl text-lg shadow-lg shadow-blue-500/20 transition"
+          >
+            🚀 今すぐ14日間無料でお試しする
+          </a>
+          <a
+            href="#pricing"
+            class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold px-6 py-4 rounded-xl text-lg transition"
+          >
+            💰 料金プランを見る
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 対象施設セクション -->
+    <section id="facilities" class="py-12 bg-slate-50 px-4">
+      <div class="max-w-4xl mx-auto">
+        <!-- セクションタイトル -->
+        <div class="text-center mb-8">
+          <h3 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
+            こんな施設・スペースにおすすめです
+          </h3>
+          <p class="text-slate-600 text-sm sm:text-base">
+            小規模なレンタルスペースから自治体管理の複合施設まで幅広く対応
+          </p>
+        </div>
+
+        <!-- おすすめ施設カード一覧 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- カード1 -->
+          <div
+            class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm"
+          >
+            <div class="text-2xl mb-2">🏛️</div>
+            <h4 class="font-bold text-slate-800 text-base mb-1">
+              公民館・地区センター
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              サークル活動や地域集会の重複予約を防止。毎日の紙の台帳作成や掲示用予約表の手間を削減したい現場に。
+            </p>
+          </div>
+
+          <!-- カード2 -->
+          <div
+            class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm"
+          >
+            <div class="text-2xl mb-2">⚽</div>
+            <h4 class="font-bold text-slate-800 text-base mb-1">
+              体育館・グラウンド・コート
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              「全面・半面」などのフレキシブルなコマ管理や、夜間照明（ナイター）等の時間帯区分が必要な施設に。
+            </p>
+          </div>
+
+          <!-- カード3 -->
+          <div
+            class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm"
+          >
+            <div class="text-2xl mb-2">🚪</div>
+            <h4 class="font-bold text-slate-800 text-base mb-1">
+              貸し会議室・レンタルスペース
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              時間単位の予約受付とリアルタイムな空き状況表示で、電話対応の手間なく自動受付したい場合におすすめ。
+            </p>
+          </div>
+
+          <!-- カード4 -->
+          <div
+            class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm"
+          >
+            <div class="text-2xl mb-2">🎨</div>
+            <h4 class="font-bold text-slate-800 text-base mb-1">
+              文化会館・イベントホール
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              部屋の予約だけでなく、付属設備（プロジェクター・音響機材等）の同時申請・管理を効率化したい現場に。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- アピールポイント（選ばれる理由）セクション: 7つの強み -->
+    <section id="features" class="py-12 bg-white px-4">
+      <div class="max-w-4xl mx-auto">
+        <!-- セクションタイトル -->
+        <div class="text-center mb-10">
+          <h3 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
+            ８つの強み
+          </h3>
+          <p class="text-slate-600 text-sm sm:text-base">
+            現場の「困った」を解消し、業務効率化を実現するこだわり機能
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- ポイント1 -->
+          <div
+            class="p-6 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              <div
+                class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4"
+              >
+                📋
+              </div>
+              <h3 class="font-bold text-lg mb-2 text-slate-900">
+                紙台帳・手書き管理の非効率を解消
+              </h3>
+              <p class="text-slate-600 text-xs leading-relaxed">
+                電話受付での転記ミスやダブルブッキングを完全防止。自動受付と空き状況のリアルタイム表示により、台帳管理の手間と問い合わせ対応時間を大幅削減します。
+              </p>
+            </div>
+            <span
+              class="mt-4 inline-block text-[10px] bg-amber-50 text-amber-700 font-semibold px-2 py-1 rounded w-fit"
+              >業務コスト削減</span
+            >
+          </div>
+
+          <!-- ポイント2 -->
+          <div
+            class="p-6 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              <div
+                class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4"
+              >
+                🖨️
+              </div>
+              <h3 class="font-bold text-lg mb-2 text-slate-900">
+                まさかの通信不調も「紙印刷」でカバー
+              </h3>
+              <p class="text-slate-600 text-xs leading-relaxed">
+                予約票や日別利用一覧はワンクリックで印刷・書面出力が可能。万が一のネットワーク障害や停電時にも、事前印刷した予約票で受付業務を止めずに継続できます。
+              </p>
+            </div>
+            <span
+              class="mt-4 inline-block text-[10px] bg-indigo-50 text-indigo-700 font-semibold px-2 py-1 rounded w-fit"
+              >ハイブリッド運用対応</span
+            >
+          </div>
+
+          <!-- ポイント3 -->
+          <div
+            class="p-6 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              <div
+                class="w-12 h-12 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4"
+              >
+                📱
+              </div>
+              <h3 class="font-bold text-lg mb-2 text-slate-900">
+                施設の回線トラブル時もスマホで凌げる
+              </h3>
+              <p class="text-slate-600 text-xs leading-relaxed">
+                施設の固定ネット回線やWi-Fiがダウンした場合でも、個人のスマートフォンやタブレット（4G/5G回線）からそのまま管理画面へアクセスして即座に対応可能です。
+              </p>
+            </div>
+            <span
+              class="mt-4 inline-block text-[10px] bg-cyan-50 text-cyan-700 font-semibold px-2 py-1 rounded w-fit"
+              >マルチデバイス対応</span
+            >
+          </div>
+
+          <!-- ポイント7 -->
+          <!-- 📱 強み：スマホ予約＋電話・窓口受付の両立 -->
+          <div
+            class="feature-card"
+            style="
+              background: #ffffff;
+              border-radius: 12px;
+              padding: 24px;
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+              border: 1px solid #e2e8f0;
+              width: 100%;
+              max-width: 100%;
+              box-sizing: border-box;
+            "
+          >
+            <div
+              class="feature-icon"
+              style="font-size: 2rem; margin-bottom: 12px"
+            >
+              📱
+            </div>
+            <h3
+              style="
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #1e293b;
+                margin-bottom: 8px;
+              "
+            >
+              スマホ予約 ＋ 電話・窓口受付の安心両立
+            </h3>
+            <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6">
+              Webからの24時間スマホ予約に対応しながら、従来どおりの電話・窓口での手動受付もかんたんに統合管理。あらゆる世代の利用者に柔軟に対応できます。
+            </p>
+            <ul
+              style="
+                margin-top: 12px;
+                padding-left: 20px;
+                color: #475569;
+                font-size: 0.875rem;
+                line-height: 1.5;
+              "
+            >
+              <li>ダブルブッキングを防ぐリアルタイム空き状況反映</li>
+              <li>操作が苦手な年配者向けの代理入力・電話予約も即時完了</li>
+              <li>すべての予約チャネルを一括データ管理</li>
+            </ul>
+          </div>
+
+          <!-- ポイント4 -->
+          <div
+            class="p-6 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              <div
+                class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4"
+              >
+                📧
+              </div>
+              <h3 class="font-bold text-lg mb-2 text-slate-900">
+                Googleアカウントだけで即日導入
+              </h3>
+              <p class="text-slate-600 text-xs leading-relaxed">
+                専用サーバーの構築や複雑な初期設定は不要。普段お使いのGmail等のアカウントがあれば、導入したその日からWeb上で即座に運用を開始できます。
+              </p>
+            </div>
+            <span
+              class="mt-4 inline-block text-[10px] bg-blue-50 text-blue-700 font-semibold px-2 py-1 rounded w-fit"
+              >サーバー設定不要</span
+            >
+          </div>
+
+          <!-- ポイント5 -->
+          <div
+            class="p-6 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              <div
+                class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4"
+              >
+                💰
+              </div>
+              <h3 class="font-bold text-lg mb-2 text-slate-900">
+                圧倒的な低コスト（年間数千件〜）
+              </h3>
+              <p class="text-slate-600 text-xs leading-relaxed">
+                Googleの無料利用枠を最大限活用して設計されているため、年間数千件規模の予約処理まで高額な月額サーバー維持費ゼロで運用可能です。
+              </p>
+            </div>
+            <span
+              class="mt-4 inline-block text-[10px] bg-emerald-50 text-emerald-700 font-semibold px-2 py-1 rounded w-fit"
+              >維持費用最小化</span
+            >
+          </div>
+
+          <!-- ポイント6 -->
+          <div
+            class="p-6 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              <div
+                class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4"
+              >
+                🛡️
+              </div>
+              <h3 class="font-bold text-lg mb-2 text-slate-900">
+                堅牢セキュリティ ＋ 規約同意機能
+              </h3>
+              <p class="text-slate-600 text-xs leading-relaxed">
+                Googleの高度なセキュリティ基盤に加え、独自暗号化キーでのライセンス認証を採用。フォーム申し込み時の規約同意によりトラブルリスクも防止します。
+              </p>
+            </div>
+            <span
+              class="mt-4 inline-block text-[10px] bg-purple-50 text-purple-700 font-semibold px-2 py-1 rounded w-fit"
+              >二重の安全構造</span
+            >
+          </div>
+
+          <!-- ✨ 強み：自動バックアップ機能（追加分） -->
+          <div
+            class="feature-card"
+            style="
+              background: #ffffff;
+              border-radius: 12px;
+              padding: 24px;
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+              border: 1px solid #e2e8f0;
+            "
+          >
+            <div
+              class="feature-icon"
+              style="font-size: 2rem; margin-bottom: 12px"
+            >
+              🛡️
+            </div>
+            <h3
+              style="
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #1e293b;
+                margin-bottom: 8px;
+              "
+            >
+              万全の自動バックアップ機能
+            </h3>
+            <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6">
+              毎日決まった時間に14日分のバックアップを自動生成。誤操作や万が一のデータ改ざん時も、ワンクリックで2週間前の状態へ安全に復元できます。
+            </p>
+            <ul
+              style="
+                margin-top: 12px;
+                padding-left: 20px;
+                color: #475569;
+                font-size: 0.875rem;
+                line-height: 1.5;
+              "
+            >
+              <li>直近14日間の自動世代管理（古いデータは自動掃除）</li>
+              <li>管理画面からバックアップフォルダへ一発アクセス</li>
+              <li>Googleドライブ連携で強固なセキュリティ</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 💰 料金プランセクション -->
+    <section id="pricing" class="py-16 bg-slate-100">
+      <div class="max-w-5xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold mb-3 text-slate-900">
+            明朗会計の料金プラン
+          </h2>
+          <p class="text-slate-600 text-sm max-w-2xl mx-auto">
+            月額費用や毎年の更新料は一切かかりません。導入時に一度お支払いいただくのみの買い切り体系です。
+          </p>
+        </div>
+
+        <div
+          class="max-w-md mx-auto bg-white rounded-3xl shadow-xl border-2 border-blue-600 overflow-hidden relative"
+        >
+          <div
+            class="bg-blue-600 text-white text-center text-xs font-bold py-2 tracking-wider uppercase"
+          >
+            おすすめ買い切りプラン
+          </div>
+          <div class="p-8 text-center">
+            <h3 class="text-xl font-bold text-slate-800 mb-2">
+              システム本体 買い切りライセンス
+            </h3>
+            <p class="text-xs text-slate-500 mb-6">
+              Google Apps Script基盤 / 図解マニュアル付属
+            </p>
+
+            <div class="flex items-baseline justify-center gap-1 mb-2">
+              <span class="text-4xl md:text-5xl font-extrabold text-slate-900"
+                >49,800</span
+              >
+              <span class="text-lg font-bold text-slate-700">円</span>
+              <span class="text-xs text-slate-500">（税込 54,780円）</span>
+            </div>
+            <p
+              class="text-xs font-bold text-emerald-600 bg-emerald-50 py-1.5 px-4 rounded-full inline-block mb-8"
+            >
+              月額利用料 0円 / 更新料 0円 / サーバー維持費 0円
+            </p>
+
+            <ul
+              class="text-left space-y-3 text-sm text-slate-700 mb-8 border-t border-b border-slate-100 py-6"
+            >
+              <li class="flex items-center gap-3">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><b>システム本体全機能</b>の永続利用権</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><b>納品後30日間の無料メールサポート</b>付き</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span>初心者でも安心の<b>「初期設定マニュアル」</b>付属</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><b>14日間の無料お試し期間</b>あり（即日利用可能）</span>
+              </li>
+            </ul>
+
+            <a
+              href="#contact"
+              class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition text-base"
+            >
+              まずは14日間無料で試してみる
+            </a>
+          </div>
+        </div>
+
+        <!-- コスト比較表 -->
+        <div
+          class="mt-12 max-w-3xl mx-auto bg-white rounded-2xl p-6 border border-slate-200 shadow-sm"
+        >
+          <h4
+            class="font-bold text-center text-slate-800 mb-4 text-sm md:text-base"
+          >
+            一般的なクラウド予約システムとの年間コスト比較
+          </h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs md:text-sm text-left">
+              <thead>
+                <tr
+                  class="border-b border-slate-200 text-slate-500 bg-slate-50"
+                >
+                  <th class="p-3">項目</th>
+                  <th class="p-3">一般的な予約システム(SaaS)</th>
+                  <th class="p-3 text-blue-600 font-bold bg-blue-50/50">
+                    当システム（買い切り）
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700">
+                <tr>
+                  <td class="p-3 font-semibold">初期費用</td>
+                  <td class="p-3">0円 〜 50,000円</td>
+                  <td class="p-3 font-bold text-blue-600 bg-blue-50/30">
+                    49,800円（一括）
+                  </td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-semibold">月額費用 / 年間更新料</td>
+                  <td class="p-3 text-red-500">月10,000円〜（年間12万円〜）</td>
+                  <td class="p-3 font-bold text-emerald-600 bg-blue-50/30">
+                    0円（永久無料）
+                  </td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-semibold">3年間の合計コスト</td>
+                  <td class="p-3 text-red-600 font-bold">約 360,000円 〜</td>
+                  <td class="p-3 font-bold text-blue-600 bg-blue-50/30">
+                    49,800円 のみ！
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🚀 導入の流れセクション -->
+    <section id="flow" class="py-16 bg-white">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
+            導入までのカンタン 3ステップ
+          </h2>
+          <p class="text-slate-600 text-sm">
+            特別なサーバー知識は不要。お手持ちのGoogleアカウントですぐ始められます。
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-8 relative">
+          <div
+            class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center relative"
+          >
+            <div
+              class="w-10 h-10 bg-blue-600 text-white rounded-full font-bold flex items-center justify-center mx-auto mb-4 text-lg shadow-sm"
+            >
+              1
+            </div>
+            <h3 class="font-bold text-base mb-2 text-slate-900">
+              無料お試し申込
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              ページ下部のフォームからお申込み。数分で体験版の設定案内メールが届きます。
+            </p>
+          </div>
+
+          <div
+            class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center relative"
+          >
+            <div
+              class="w-10 h-10 bg-blue-600 text-white rounded-full font-bold flex items-center justify-center mx-auto mb-4 text-lg shadow-sm"
+            >
+              2
+            </div>
+            <h3 class="font-bold text-base mb-2 text-slate-900">
+              14日間しっかり検証
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              図解ガイドに沿って設定（約15分）。お持ちのスマホやPCで動作・使い勝手を確認。
+            </p>
+          </div>
+
+          <div
+            class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center relative"
+          >
+            <div
+              class="w-10 h-10 bg-blue-600 text-white rounded-full font-bold flex items-center justify-center mx-auto mb-4 text-lg shadow-sm"
+            >
+              3
+            </div>
+            <h3 class="font-bold text-base mb-2 text-slate-900">
+              正規ライセンス発行
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              気に入っていただけたら本契約。ライセンスキーを入力すればそのまま本格運用スタート！
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 画面ギャラリーセクション -->
+    <section id="screens" class="py-16 bg-slate-100">
+      <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-4">
+          実際の画面イメージ
+        </h2>
+        <p class="text-slate-600 text-center text-sm mb-12">
+          パソコンからスマホまで、どなたでも直感的に使えるデザインです。
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+          <div
+            class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200"
+          >
+            <div
+              class="bg-slate-200 h-48 rounded-xl flex items-center justify-center text-slate-400 font-bold mb-4"
+            >
+              ［ 1. 利用者向け 予約カレンダー画面 ］
+            </div>
+            <h3 class="font-bold text-lg mb-1">予約カレンダー画面</h3>
+            <p class="text-slate-600 text-xs">
+              空き時間を色分けで直感的に確認・選択可能です。
+            </p>
+          </div>
+          <div
+            class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200"
+          >
+            <div
+              class="bg-slate-200 h-48 rounded-xl flex items-center justify-center text-slate-400 font-bold mb-4"
+            >
+              <img
+                src="main.jpg"
+                alt="管理ダッシュボード"
+                class="zoomable-img"
+                onclick="openImageModal(this)"
+              />
+              <p
+                style="
+                  font-size: 0.8rem;
+                  color: #64748b;
+                  text-align: center;
+                  margin-top: 4px;
+                "
+              >
+                ※画像をクリックすると拡大します
+              </p>
+            </div>
+            <h3 class="font-bold text-lg mb-1">管理ダッシュボード</h3>
+            <p class="text-slate-600 text-xs">
+              全顧客のステータスやライセンス状況を一括管理できます。
+            </p>
+          </div>
+        </div>
+
+        <!-- モーダル起動ボタン -->
+        <div class="text-center">
+          <button
+            type="button"
+            onclick="openScreenModal()"
+            class="bg-white hover:bg-slate-50 text-blue-600 border border-blue-600 font-bold px-8 py-3 rounded-xl transition shadow-sm inline-flex items-center space-x-2"
+          >
+            <span>🖼️ 他の画面イメージをもっと見る（全6画面）</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🖼️ 画面イメージ全表示モーダル -->
+    <div
+      id="screenModal"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-2xl max-w-4xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden"
+      >
+        <div
+          class="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50"
+        >
+          <h3 class="font-bold text-slate-800">
+            システム主要画面一覧（全6画面）
+          </h3>
+          <button
+            type="button"
+            onclick="closeScreenModal()"
+            class="text-slate-400 hover:text-slate-600 text-2xl font-bold"
+          >
+            &times;
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs"
+        >
+          <div class="border rounded-xl p-3 bg-slate-50">
+            <div
+              class="bg-slate-200 h-32 rounded-lg mb-2 flex items-center justify-center text-slate-400 font-bold"
+            >
+              ［ カレンダー ］
+            </div>
+            <div class="font-bold text-slate-800 mb-1">1. 予約カレンダー</div>
+            <div class="text-slate-500 text-[11px]">
+              日・週・月ごとの空き枠表示
+            </div>
+          </div>
+          <div class="border rounded-xl p-3 bg-slate-50">
+            <div
+              class="bg-slate-200 h-32 rounded-lg mb-2 flex items-center justify-center text-slate-400 font-bold"
+            >
+              ［ 申込フォーム ］
+            </div>
+            <div class="font-bold text-slate-800 mb-1">2. 予約入力フォーム</div>
+            <div class="text-slate-500 text-[11px]">
+              必要事項の簡易入力・規約同意
+            </div>
+          </div>
+          <div class="border rounded-xl p-3 bg-slate-50">
+            <div
+              class="bg-slate-200 h-32 rounded-lg mb-2 flex items-center justify-center text-slate-400 font-bold"
+            >
+              ［ 管理画面 ］
+            </div>
+            <div class="font-bold text-slate-800 mb-1">3. PCダッシュボード</div>
+            <div class="text-slate-500 text-[11px]">
+              顧客一覧・集計グラフ表示
+            </div>
+          </div>
+          <div class="border rounded-xl p-3 bg-slate-50">
+            <div
+              class="bg-slate-200 h-32 rounded-lg mb-2 flex items-center justify-center text-slate-400 font-bold"
+            >
+              ［ キー発行 ］
+            </div>
+            <div class="font-bold text-slate-800 mb-1">
+              4. ライセンス発行画面
+            </div>
+            <div class="text-slate-500 text-[11px]">
+              ワンクリック自動メール送付
+            </div>
+          </div>
+          <div class="border rounded-xl p-3 bg-slate-50">
+            <div
+              class="bg-slate-200 h-32 rounded-lg mb-2 flex items-center justify-center text-slate-400 font-bold"
+            >
+              ［ スマホ画面 ］
+            </div>
+            <div class="font-bold text-slate-800 mb-1">5. スマホ最適化画面</div>
+            <div class="text-slate-500 text-[11px]">
+              現場モバイルからの直接アクセス
+            </div>
+          </div>
+          <div class="border rounded-xl p-3 bg-slate-50">
+            <div
+              class="bg-slate-200 h-32 rounded-lg mb-2 flex items-center justify-center text-slate-400 font-bold"
+            >
+              ［ 設定画面 ］
+            </div>
+            <div class="font-bold text-slate-800 mb-1">
+              6. 時間刻み・システム設定
+            </div>
+            <div class="text-slate-500 text-[11px]">
+              10分/15分/30分刻み等の変更
+            </div>
+          </div>
+        </div>
+        <div class="p-4 border-t border-slate-200 bg-slate-50 text-right">
+          <button
+            type="button"
+            onclick="closeScreenModal()"
+            class="bg-blue-600 text-white font-bold px-5 py-2 rounded-lg text-xs hover:bg-blue-700 transition"
+          >
+            閉じる
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 画面イメージモーダル制御用スクリプト
+      function openScreenModal() {
+        document.getElementById("screenModal").classList.remove("hidden");
+      }
+      function closeScreenModal() {
+        document.getElementById("screenModal").classList.add("hidden");
+      }
+    </script>
+
+    <!-- マニュアル・資料ダウンロードセクション -->
+    <section id="manual" class="py-16 bg-white">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">
+          マニュアル・機能一覧資料
+        </h2>
+        <p class="text-slate-600 text-sm mb-8">
+          導入前の確認や設定手順について、以下のドキュメントを自由に閲覧いただけます。
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          <a
+            href="#"
+            target="_blank"
+            class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 flex items-center justify-between text-left transition shadow-sm"
+          >
+            <div>
+              <div class="font-bold text-sm text-slate-800">
+                📄 初期設定ガイド（PDF）
+              </div>
+              <div class="text-xs text-slate-500">
+                導入までの3ステップを解説
+              </div>
+            </div>
+            <span class="text-blue-600 text-sm font-bold">閲覧 ➔</span>
+          </a>
+          <a
+            href="#"
+            target="_blank"
+            class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 flex items-center justify-between text-left transition shadow-sm"
+          >
+            <div>
+              <div class="font-bold text-sm text-slate-800">
+                📖 管理者操作マニュアル
+              </div>
+              <div class="text-xs text-slate-500">
+                ライセンス発行や顧客管理の手順
+              </div>
+            </div>
+            <span class="text-blue-600 text-sm font-bold">閲覧 ➔</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- よくある質問（FAQ）セクション -->
+    <section id="faq" class="py-16 bg-slate-100">
+      <div class="max-w-3xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">
+          よくある質問
+        </h2>
+        <div class="space-y-4">
+          <details
+            class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 group"
+          >
+            <summary
+              class="font-bold cursor-pointer list-none flex justify-between items-center"
+            >
+              <span>Q. 購入後、本当に月額費用や更新料はかかりませんか？</span>
+              <span
+                class="text-blue-600 group-open:rotate-180 transition-transform"
+                >▼</span
+              >
+            </summary>
+            <p class="text-slate-600 text-sm mt-4 leading-relaxed">
+              はい、かかりません。一括49,800円（税込54,780円）の買い切り型システムのため、2年目以降も月額費用や更新費用が発生することなく永続的にご利用いただけます。
+            </p>
+          </details>
+
+          <details
+            class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 group"
+          >
+            <summary
+              class="font-bold cursor-pointer list-none flex justify-between items-center"
+            >
+              <span
+                >Q. 納品後のサポート期間や対応方法はどうなっていますか？</span
+              >
+              <span
+                class="text-blue-600 group-open:rotate-180 transition-transform"
+                >▼</span
+              >
+            </summary>
+            <p class="text-slate-600 text-sm mt-4 leading-relaxed">
+              納品後30日間の「無料メールサポート」が付属しています。初期設定でのつまずきや不具合が発生した場合、メールにて丁寧にサポートいたしますのでご安心ください。
+            </p>
+          </details>
+
+          <details
+            class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 group"
+          >
+            <summary
+              class="font-bold cursor-pointer list-none flex justify-between items-center"
+            >
+              <span
+                >Q. スマホ操作が苦手な高齢者の利用者にも対応できますか？</span
+              >
+              <span
+                class="text-blue-600 group-open:rotate-180 transition-transform"
+                >▼</span
+              >
+            </summary>
+            <p class="text-slate-600 text-sm mt-4 leading-relaxed">
+              はい、もちろんです。スマホやタブレットからの24時間Web予約・キャンセル機能に加え、これまで通りの電話受付や窓口対面での予約もそのまま並行して受付・代理登録が可能です。
+            </p>
+          </details>
+
+          <details
+            class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 group"
+          >
+            <summary
+              class="font-bold cursor-pointer list-none flex justify-between items-center"
+            >
+              <span>Q. 施設のネット回線が不安定な場合でも利用できますか？</span>
+              <span
+                class="text-blue-600 group-open:rotate-180 transition-transform"
+                >▼</span
+              >
+            </summary>
+            <p class="text-slate-600 text-sm mt-4 leading-relaxed">
+              はい、ご利用いただけます。予約票や一覧表を事前に印刷して紙台帳として管理する運用が可能なほか、万が一の回線障害時も個人のスマートフォンやタブレット（4G/5G回線）からアクセスして継続運用が可能です。
+            </p>
+          </details>
+
+          <details
+            class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 group"
+          >
+            <summary
+              class="font-bold cursor-pointer list-none flex justify-between items-center"
+            >
+              <span>Q. 無料お試し期間中に費用が発生することはありますか？</span>
+              <span
+                class="text-blue-600 group-open:rotate-180 transition-transform"
+                >▼</span
+              >
+            </summary>
+            <p class="text-slate-600 text-sm mt-4 leading-relaxed">
+              いいえ、一切発生いたしません。14日間すべての機能を無料でお試しいただけます。クレジット番号の登録も不要です。
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 問い合わせフォームセクション -->
+    <section id="contact" class="py-16 bg-white">
+      <div class="max-w-2xl mx-auto px-4">
+        <div
+          class="bg-slate-50 p-8 md:p-10 rounded-2xl shadow-sm border border-slate-200"
+        >
+          <h2 class="text-2xl font-bold text-center mb-2">
+            14日間無料お試し・お問い合わせ
+          </h2>
+          <p class="text-slate-600 text-sm text-center mb-8">
+            フォーム送信後、即座にお試し版の設定案内メールをお送りいたします。
+          </p>
+
+          <form id="lpForm" class="space-y-6">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2"
+                >施設名・団体名 <span class="text-red-500">*</span></label
+              >
+              <input
+                type="text"
+                name="facilityName"
+                required
+                placeholder="例: 〇〇コミュニティセンター"
+                class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2"
+                >ご担当者様お名前 <span class="text-red-500">*</span></label
+              >
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="例: 山田 太郎"
+                class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2"
+                >メールアドレス <span class="text-red-500">*</span></label
+              >
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="例: example@facility.com"
+                class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2"
+                >電話番号</label
+              >
+              <input
+                type="tel"
+                name="tel"
+                placeholder="例: 090-1234-5678"
+                class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2"
+                >ご質問・ご要望（任意）</label
+              >
+              <textarea
+                name="message"
+                rows="3"
+                placeholder="ご不明な点などがあればご入力ください"
+                class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+              ></textarea>
+            </div>
+
+            <!-- 免責事項・利用規約への同意チェックボックス -->
+            <div class="pt-2">
+              <label class="flex items-start space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="termsCheck"
+                  required
+                  class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded"
+                />
+                <span class="text-xs text-slate-600 leading-normal">
+                  <button
+                    type="button"
+                    onclick="openModal('termsModal')"
+                    class="text-blue-600 underline font-semibold hover:text-blue-800"
+                  >
+                    利用規約・免責事項
+                  </button>
+                  の内容を確認し、これに同意して申し込みます。
+                  <span class="text-red-500">*</span>
+                </span>
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              id="submitBtn"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition shadow-md disabled:bg-slate-400 disabled:cursor-not-allowed"
+            >
+              14日間無料お試しを始める
+            </button>
+          </form>
+
+          <div id="successMessage" class="hidden text-center py-8">
+            <div class="text-5xl mb-4">🎉</div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">
+              お申し込みを受け付けました
+            </h3>
+            <p class="text-slate-600 text-sm">
+              ご入力いただいたメールアドレスへ受付完了メールをお送りいたしました。<br />担当者より順次、体験版のご案内をさせていただきます。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 📜 利用規約・免責事項 モーダル -->
+    <div
+      id="termsModal"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-2xl max-w-lg w-full max-h-[80vh] flex flex-col shadow-2xl overflow-hidden"
+      >
+        <div
+          class="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50"
+        >
+          <h3 class="font-bold text-slate-800">利用規約・免責事項</h3>
+          <button
+            type="button"
+            onclick="closeModal('termsModal')"
+            class="text-slate-400 hover:text-slate-600 text-2xl font-bold"
+          >
+            &times;
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto space-y-4 text-xs text-slate-600 leading-relaxed"
+        >
+          <p>
+            本サービス（施設利用予約システム PRO
+            お試し版を含む）のご利用にあたり、以下の利用規約および免責事項をご確認・ご同意いただく必要があります。
+          </p>
+
+          <h4 class="font-bold text-slate-800 text-sm">
+            1. サービスの提供条件（現状有姿）
+          </h4>
+          <p>
+            本システムは「現状有姿」で提供されるものであり、提供者はその完全性、特定目的への適合性、継続性について保証を行うものではありません。
+          </p>
+
+          <h4 class="font-bold text-slate-800 text-sm">
+            2. 免責事項（損害賠償の制限）
+          </h4>
+          <p>
+            本システムの利用、動作不良、データ消失、第三者とのトラブル等によって生じた直接的・間接的な損害（営業損失、機会損失を含む）について、提供者は一切の責任を負わないものとします。
+          </p>
+
+          <h4 class="font-bold text-slate-800 text-sm">
+            3. 外部サービスの利用について
+          </h4>
+          <p>
+            本システムは Google 側のシステム（Google Apps
+            Script、スプレッドシート等）に依存して動作します。Google
+            側の仕様変更や障害等により発生した障害についても提供者は責任を負いません。
+          </p>
+
+          <h4 class="font-bold text-slate-800 text-sm mb-2">
+            4. 利用停止・ライセンス失効
+          </h4>
+          <p class="mb-2">
+            利用者が以下のいずれかに該当すると当方が判断した場合、当方は事前の通知または催告を要することなく、本システムの利用権限（ライセンス）を一時停止、または無効化（アクセス権限の取り消し等）できるものとします。
+          </p>
+
+          <ol
+            class="list-decimal list-inside space-y-1 text-slate-700 mb-2 pl-2"
+          >
+            <li>利用規約または関係法令に違反したとき</li>
+            <li>代金の未払い、または不正な決済が行われたとき</li>
+            <li>
+              本システムの二次配布、転売、解析、その他著作権を侵害する行為を行ったとき
+            </li>
+            <li>その他、当方が利用継続を不適当と判断したとき</li>
+          </ol>
+          <p class="text-xs text-slate-500">
+            なお、ライセンス無効化により利用者に生じた損害について、当方は一切の責任を負いません。
+          </p>
+          <h4 class="font-bold text-slate-800 text-sm mb-2">
+            5. 著作権および禁止事項
+          </h4>
+          <p class="mb-2">
+            本システム（プログラムコード、データベース構造、デザイン等を含む）の著作権は当方に帰属します。利用者は以下の行為を行ってはならないものとします。
+          </p>
+
+          <ol
+            class="list-decimal list-inside space-y-1 text-slate-700 mb-2 pl-2"
+          >
+            <li>
+              本システムのソースコードの解析、改変、リバースエンジニアリング行為
+            </li>
+            <li>
+              本システム（コードの一部または全部）の第三者への譲渡、転売、二次配布、再ライセンス許可
+            </li>
+            <li>
+              第三者への提供を目的としたシステムデータの無断複製および転載
+            </li>
+          </ol>
+
+          <p class="text-xs text-slate-500">
+            なお、本条項への違反が判明した場合、当方は事前の通知なく利用停止措置を講じるとともに、相応の損害賠償を請求できるものとします。
+          </p>
+        </div>
+
+        <div class="p-4 border-t border-slate-200 bg-slate-50 text-right">
+          <button
+            type="button"
+            onclick="closeModal('termsModal')"
+            class="bg-blue-600 text-white font-bold px-5 py-2 rounded-lg text-xs hover:bg-blue-700 transition"
+          >
+            内容を確認・閉じる
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🏢 特定商取引法に基づく表記 モーダル -->
+    <div
+      id="tokushoModal"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-2xl max-w-lg w-full max-h-[80vh] flex flex-col shadow-2xl overflow-hidden"
+      >
+        <div
+          class="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50"
+        >
+          <h3 class="font-bold text-slate-800">特定商取引法に基づく表記</h3>
+          <button
+            type="button"
+            onclick="closeModal('tokushoModal')"
+            class="text-slate-400 hover:text-slate-600 text-2xl font-bold"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="p-6 overflow-y-auto text-xs text-slate-600 leading-relaxed">
+          <table class="w-full text-left divide-y divide-slate-200">
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800 w-28">事業者名</th>
+                <td class="py-2.5">〇〇プロダクト（※ダミー）</td>
+              </tr>
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800">代表責任者</th>
+                <td class="py-2.5">山田 太郎（※ダミー）</td>
+              </tr>
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800">所在地</th>
+                <td class="py-2.5">
+                  〒000-0000 東京都〇〇区〇〇1-2-3（※ダミー）
+                </td>
+              </tr>
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800">電話番号</th>
+                <td class="py-2.5">090-0000-0000（※ダミー）</td>
+              </tr>
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800">メールアドレス</th>
+                <td class="py-2.5">support@example.com（※ダミー）</td>
+              </tr>
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800">販売価格</th>
+                <td class="py-2.5">
+                  買い切りライセンス: 49,800円（税込 54,780円）
+                </td>
+              </tr>
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800">代金の支払時期</th>
+                <td class="py-2.5">無料体験終了後の本お申し込み時</td>
+              </tr>
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800">引き渡し時期</th>
+                <td class="py-2.5">
+                  お支払い確認後、即日〜2営業日以内にライセンスキーをメール送付
+                </td>
+              </tr>
+              <tr>
+                <th class="py-2.5 font-bold text-slate-800">
+                  返品・キャンセル
+                </th>
+                <td class="py-2.5">
+                  デジタルコンテンツの特性上、購入後の返金には原則応じかねます（14日間の無料お試しにて動作確認をご利用ください）
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="p-4 border-t border-slate-200 bg-slate-50 text-right">
+          <button
+            type="button"
+            onclick="closeModal('tokushoModal')"
+            class="bg-blue-600 text-white font-bold px-5 py-2 rounded-lg text-xs hover:bg-blue-700 transition"
+          >
+            閉じる
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- フッター -->
+    <footer
+      class="bg-slate-900 text-slate-400 py-10 text-center text-xs border-t border-slate-800"
+    >
+      <div class="max-w-4xl mx-auto px-4 space-y-4">
+        <div class="flex justify-center space-x-6">
+          <button
+            type="button"
+            onclick="openModal('termsModal')"
+            class="hover:text-white transition"
+          >
+            利用規約・免責事項
+          </button>
+          <span>|</span>
+          <button
+            type="button"
+            onclick="openModal('tokushoModal')"
+            class="hover:text-white transition"
+          >
+            特定商取引法に基づく表記
+          </button>
+        </div>
+        <p class="text-slate-500">
+          運営: 〇〇プロダクト（代表: 山田 太郎）/ お問い合わせ:
+          support@example.com
+        </p>
+        <p>&copy; 2026 施設利用予約システム PRO All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const GAS_WEB_API_URL =
+        "https://script.google.com/macros/s/AKfycby6QB2Fz2lOknGX4EXCkWmi1zsB-wFldgKYURec9o7Cf3JAjBR9uyrGKKmpIDNExm4PCw/exec";
+
+      function openModal(id) {
+        document.getElementById(id).classList.remove("hidden");
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.add("hidden");
+      }
+
+      document
+        .getElementById("lpForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const termsCheck = document.getElementById("termsCheck");
+          if (!termsCheck.checked) {
+            alert("利用規約・免責事項への同意が必要です。");
+            return;
+          }
+
+          const btn = document.getElementById("submitBtn");
+          btn.disabled = true;
+          btn.textContent = "送信中...";
+
+          const formData = {
+            facilityName: this.facilityName.value,
+            name: this.name.value,
+            email: this.email.value,
+            tel: this.tel.value,
+            message: this.message.value,
+          };
+
+          try {
+            const response = await fetch(GAS_WEB_API_URL, {
+              method: "POST",
+              body: JSON.stringify(formData),
+            });
+
+            const res = await response.json();
+
+            if (res.success) {
+              document.getElementById("lpForm").classList.add("hidden");
+              document
+                .getElementById("successMessage")
+                .classList.remove("hidden");
+            } else {
+              alert(
+                "送信に失敗しました: " +
+                  (res.error || "時間をおいて再度お試しください。"),
+              );
+              btn.disabled = false;
+              btn.textContent = "14日間無料お試しを始める";
+            }
+          } catch (err) {
+            alert(
+              "通信エラーが発生しました。ネットワーク環境をご確認ください。",
+            );
+            btn.disabled = false;
+            btn.textContent = "14日間無料お試しを始める";
+          }
+        });
+
+      // 画像拡大モーダルを開く関数
+      function openImageModal(imgEl) {
+        if (!imgEl || !imgEl.src) return;
+
+        var modal = document.getElementById("imageModal");
+        var modalImg = document.getElementById("modalImg");
+
+        // もしモーダルHTMLが読み込まれていない場合は自動で一時生成
+        if (!modal) {
+          modal = document.createElement("div");
+          modal.id = "imageModal";
+          modal.className = "img-modal";
+          modal.onclick = closeImageModal;
+          modal.innerHTML =
+            '<span class="img-modal-close">&times;</span><img class="img-modal-content" id="modalImg">';
+          document.body.appendChild(modal);
+          modalImg = document.getElementById("modalImg");
+        }
+
+        if (modalImg) {
+          modalImg.src = imgEl.src;
+          modal.style.display = "flex";
+        }
+      }
+
+      // 拡大モーダルを閉じる関数
+      function closeImageModal() {
+        var modal = document.getElementById("imageModal");
+        if (modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      // ESCキーで閉じる
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeImageModal();
+        }
+      });
+
+      // 拡大モーダルを閉じる（画面どこをクリックしても閉じます）
+      function closeImageModal() {
+        var modal = document.getElementById("imageModal");
+        if (modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      // ESCキーを押しても閉じられるようにする便利機能
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeImageModal();
+        }
+      });
+    </script>
+  </body>
+</html>

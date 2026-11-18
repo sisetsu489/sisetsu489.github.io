@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>施設予約管理システム - 操作マニュアル</title>
+    <!-- ⚠️ <base target="_top"> はページ内ジャンプを妨害するため削除しています -->
+    <style>
+      html {
+        scroll-behavior: smooth; /* スムーズスクロール有効化 */
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #334155;
+        padding: 24px;
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #f8fafc;
+      }
+      h1 {
+        color: #0f172a;
+        border-bottom: 2px solid #2563eb;
+        padding-bottom: 8px;
+        font-size: 1.5rem;
+      }
+      h2 {
+        color: #1e40af;
+        margin-top: 28px;
+        font-size: 1.15rem;
+        background: #e0f2fe;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+      .card {
+        background: #ffffff;
+        padding: 16px 20px;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+      .badge-init {
+        background: #dbeafe;
+        color: #1e40af;
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-left: 8px;
+      }
+      .nav-menu {
+        background: #ffffff;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid #cbd5e1;
+        margin-bottom: 24px;
+        position: sticky;
+        top: 10px;
+        z-index: 100;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+      .nav-menu a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 16px;
+        cursor: pointer;
+      }
+      .nav-menu a:hover {
+        text-decoration: underline;
+      }
+      ol,
+      ul {
+        padding-left: 20px;
+        margin: 8px 0;
+      }
+      li {
+        margin-bottom: 6px;
+      }
+      .alert-box {
+        background: #fffbeb;
+        border: 1px solid #fef3c7;
+        border-radius: 8px;
+        padding: 14px 16px;
+        color: #78350f;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>📖 施設予約管理システム 操作マニュアル</h1>
+
+    <!-- ナビゲーション（target="_self" を明示） -->
+    <div class="nav-menu">
+      <strong>📌 項目ジャンプ:</strong>
+      <a href="#init-guide" target="_self">【初回のみ】初期設定</a>
+      <a href="#daily-ops" target="_self">日常の受付管理</a>
+      <a href="#backup-csv" target="_self">データ出力・復元</a>
+    </div>
+
+    <!-- 1. 初期設定 -->
+    <h2 id="init-guide">
+      ⚙️ 1. 初期設定ガイド <span class="badge-init">初回のみ</span>
+    </h2>
+    <div class="card">
+      <p>システム導入直後に、管理画面から一度だけ行う設定です。</p>
+      <ol>
+        <li>
+          <strong>システム設定を開く:</strong>
+          管理画面の「システム設定」ボタンをクリックします。
+        </li>
+        <li>
+          <strong>施設情報の設定:</strong>
+          貸し出す部屋名（会議室A、体育館など）や利用可能時間帯、定員を入力して保存します。
+        </li>
+        <li>
+          <strong>自動バックアップのON:</strong>
+          「日次自動バックアップ」を有効にします（毎日深夜に自動で14日分のバックアップが保存されます）。
+        </li>
+      </ol>
+    </div>
+
+    <!-- 2. 日常の管理業務 -->
+    <h2 id="daily-ops">🖥️ 2. 日常の管理・受付業務</h2>
+    <div class="card">
+      <h3>代理受付（電話・窓口対応）</h3>
+      <p>
+        「新規予約登録」ボタンから手動入力します。Webからの空き枠も即時に埋まり、ダブルブッキングを防げます。
+      </p>
+
+      <h3>予約の一覧・印刷</h3>
+      <p>
+        予約一覧上部の「印刷」ボタンを押すと、本日の受付用名簿がA4サイズで綺麗に印刷できます。
+      </p>
+
+      <h3>キャンセル処理</h3>
+      <p>
+        キャンセルの際はスプレッドシートを直接手動削除せず、必ず管理画面の「キャンセル」ボタンから操作を行ってください。
+      </p>
+    </div>
+
+    <!-- 3. データ・復元 -->
+    <h2 id="backup-csv">🛡️ 3. データ出力・万が一の復元</h2>
+    <div class="card">
+      <h3>CSVダウンロード</h3>
+      <p>「CSV」ボタンから指定日の予約データをエクスポート可能です。</p>
+
+      <h3>データ復元（自動バックアップ）</h3>
+      <p>
+        誤操作時等は、マイドライブ内の「施設予約システム_バックアップ一覧」フォルダから過去14日分のバックアップファイルを確認・復元できます。
+      </p>
+    </div>
+
+    <!-- 注意事項 -->
+    <div class="alert-box">
+      <strong>💡 運用上の注意:</strong><br />
+      スプレッドシート上の行を直接消去すると通知メール送信やシステムログとの整合性が取れなくなるため、全ての操作は管理画面から行っていただくことを推奨します。
+    </div>
+
+    <!-- JSでの安全なページ内スクロール処理 -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var links = document.querySelectorAll('.nav-menu a[href^="#"]');
+        links.forEach(function (link) {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            var targetId = this.getAttribute("href").substring(1);
+            var targetElem = document.getElementById(targetId);
+            if (targetElem) {
+              targetElem.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
