@@ -1,178 +1,519 @@
 <!doctype html>
-<html>
+<html lang="ja">
   <head>
-    <meta charset="utf-8" />
-    <title>施設予約管理システム - 操作マニュアル</title>
-    <!-- ⚠️ <base target="_top"> はページ内ジャンプを妨害するため削除しています -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>初期設定・利用開始マニュアル | 施設利用予約・管理システム</title>
     <style>
-      html {
-        scroll-behavior: smooth; /* スムーズスクロール有効化 */
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #eff6ff;
+        --success: #16a34a;
+        --success-light: #f0fdf4;
+        --warning-bg: #fffbeb;
+        --warning-border: #fde68a;
+        --warning-text: #92400e;
+        --text-main: #1e293b;
+        --text-sub: #475569;
+        --bg-page: #f8fafc;
+        --border: #e2e8f0;
       }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-        line-height: 1.6;
-        color: #334155;
-        padding: 24px;
-        max-width: 800px;
+          "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+          Meiryo, sans-serif;
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        margin: 0;
+        padding: 0;
+        line-height: 1.75;
+      }
+
+      /* ヘッダー */
+      header {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        color: #fff;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      header .badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 4px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+        margin-bottom: 12px;
+      }
+      header h1 {
+        font-size: 24px;
+        margin: 0 0 10px 0;
+        line-height: 1.4;
+      }
+      header p {
+        font-size: 14px;
+        color: #dbeafe;
+        max-width: 640px;
         margin: 0 auto;
-        background-color: #f8fafc;
       }
-      h1 {
-        color: #0f172a;
-        border-bottom: 2px solid #2563eb;
-        padding-bottom: 8px;
-        font-size: 1.5rem;
+
+      /* メインコンテナ */
+      .container {
+        max-width: 800px;
+        margin: -20px auto 40px;
+        padding: 0 16px;
       }
-      h2 {
-        color: #1e40af;
-        margin-top: 28px;
-        font-size: 1.15rem;
-        background: #e0f2fe;
-        padding: 8px 12px;
-        border-radius: 6px;
-      }
-      .card {
-        background: #ffffff;
-        padding: 16px 20px;
-        border-radius: 8px;
-        border: 1px solid #e2e8f0;
-        margin-bottom: 16px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      }
-      .badge-init {
-        background: #dbeafe;
-        color: #1e40af;
-        font-size: 0.75rem;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-weight: bold;
-        margin-left: 8px;
-      }
-      .nav-menu {
-        background: #ffffff;
-        padding: 12px 16px;
-        border-radius: 8px;
-        border: 1px solid #cbd5e1;
+
+      .intro-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px 28px;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+        border: 1px solid var(--border);
         margin-bottom: 24px;
-        position: sticky;
-        top: 10px;
-        z-index: 100;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        font-size: 15px;
+        color: var(--text-sub);
       }
-      .nav-menu a {
-        color: #2563eb;
-        text-decoration: none;
+      .intro-card strong {
+        color: var(--text-main);
+      }
+
+      /* 目次ナビ */
+      .toc {
+        background: var(--primary-light);
+        border: 1px solid #bfdbfe;
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-top: 16px;
+      }
+      .toc-title {
+        font-size: 13px;
         font-weight: bold;
-        margin-right: 16px;
-        cursor: pointer;
+        color: var(--primary-dark);
+        margin-bottom: 8px;
       }
-      .nav-menu a:hover {
+      .toc ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 6px 16px;
+        font-size: 13px;
+      }
+      .toc a {
+        color: var(--primary-dark);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .toc a:hover {
         text-decoration: underline;
       }
-      ol,
-      ul {
-        padding-left: 20px;
-        margin: 8px 0;
+
+      /* ステップカード */
+      .step-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 28px;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+        border: 1px solid var(--border);
+        margin-bottom: 24px;
       }
-      li {
+
+      .step-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 14px;
+        margin-bottom: 18px;
+      }
+
+      .step-badge {
+        background-color: var(--primary);
+        color: #fff;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 5px 12px;
+        border-radius: 6px;
+        white-space: nowrap;
+      }
+
+      .step-header h2 {
+        font-size: 19px;
+        margin: 0;
+        color: #0f172a;
+      }
+
+      ol.procedure {
+        padding-left: 22px;
+        margin: 0;
+      }
+      ol.procedure > li {
+        margin-bottom: 14px;
+        font-size: 15px;
+      }
+      ol.procedure > li:last-child {
+        margin-bottom: 0;
+      }
+
+      /* 補足・警告ボックス */
+      .note-box {
+        background-color: #f8fafc;
+        border-left: 4px solid #94a3b8;
+        padding: 12px 16px;
+        margin-top: 10px;
+        border-radius: 0 8px 8px 0;
+        font-size: 13.5px;
+        color: var(--text-sub);
+      }
+
+      .warning-box {
+        background-color: var(--warning-bg);
+        border: 1px solid var(--warning-border);
+        border-left: 4px solid #f59e0b;
+        padding: 14px 16px;
+        margin-top: 12px;
+        border-radius: 8px;
+        font-size: 13.5px;
+        color: var(--warning-text);
+      }
+
+      .sub-steps {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px 12px 32px;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+      .sub-steps li {
         margin-bottom: 6px;
       }
-      .alert-box {
-        background: #fffbeb;
-        border: 1px solid #fef3c7;
+
+      .config-list {
+        list-style: none;
+        padding: 12px 16px;
+        margin: 10px 0;
+        background: var(--primary-light);
         border-radius: 8px;
-        padding: 14px 16px;
-        color: #78350f;
+        border: 1px solid #bfdbfe;
+        font-size: 14px;
+      }
+      .config-list li {
+        margin-bottom: 6px;
+      }
+      .config-list li:last-child {
+        margin-bottom: 0;
+      }
+
+      /* FAQセクション */
+      .faq-section {
+        background: #fff;
+        border-radius: 12px;
+        padding: 28px;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+        border: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+      .faq-section h2 {
+        font-size: 19px;
+        margin-top: 0;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #f1f5f9;
+      }
+      .faq-item {
+        margin-bottom: 18px;
+        padding-bottom: 18px;
+        border-bottom: 1px dashed var(--border);
+      }
+      .faq-item:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+      .faq-q {
+        font-weight: bold;
+        color: var(--primary-dark);
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+      .faq-a {
+        font-size: 14px;
+        color: var(--text-sub);
+        margin: 0;
+      }
+
+      /* フッター */
+      footer {
+        text-align: center;
+        padding: 24px 16px 40px;
+        font-size: 13px;
+        color: #64748b;
+      }
+      footer a {
+        color: var(--primary);
+        text-decoration: none;
+        margin: 0 10px;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* 印刷時調整 */
+      @media print {
+        header {
+          background: #1e3a8a !important;
+          -webkit-print-color-adjust: exact;
+          padding: 20px;
+        }
+        .container {
+          margin-top: 10px;
+        }
+        .step-card,
+        .faq-section,
+        .intro-card {
+          box-shadow: none;
+          break-inside: avoid;
+        }
+      }
+
+      @media (max-width: 600px) {
+        header h1 {
+          font-size: 20px;
+        }
+        .step-card,
+        .faq-section,
+        .intro-card {
+          padding: 20px 18px;
+        }
+        .step-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>📖 施設予約管理システム 操作マニュアル</h1>
-
-    <!-- ナビゲーション（target="_self" を明示） -->
-    <div class="nav-menu">
-      <strong>📌 項目ジャンプ:</strong>
-      <a href="#init-guide" target="_self">【初回のみ】初期設定</a>
-      <a href="#daily-ops" target="_self">日常の受付管理</a>
-      <a href="#backup-csv" target="_self">データ出力・復元</a>
-    </div>
-
-    <!-- 1. 初期設定 -->
-    <h2 id="init-guide">
-      ⚙️ 1. 初期設定ガイド <span class="badge-init">初回のみ</span>
-    </h2>
-    <div class="card">
-      <p>システム導入直後に、管理画面から一度だけ行う設定です。</p>
-      <ol>
-        <li>
-          <strong>システム設定を開く:</strong>
-          管理画面の「システム設定」ボタンをクリックします。
-        </li>
-        <li>
-          <strong>施設情報の設定:</strong>
-          貸し出す部屋名（会議室A、体育館など）や利用可能時間帯、定員を入力して保存します。
-        </li>
-        <li>
-          <strong>自動バックアップのON:</strong>
-          「日次自動バックアップ」を有効にします（毎日深夜に自動で14日分のバックアップが保存されます）。
-        </li>
-      </ol>
-    </div>
-
-    <!-- 2. 日常の管理業務 -->
-    <h2 id="daily-ops">🖥️ 2. 日常の管理・受付業務</h2>
-    <div class="card">
-      <h3>代理受付（電話・窓口対応）</h3>
+    <header>
+      <div class="badge">導入ガイド（所要時間：約3分）</div>
+      <h1>施設利用予約・管理システム<br />初期設定・利用開始マニュアル</h1>
       <p>
-        「新規予約登録」ボタンから手動入力します。Webからの空き枠も即時に埋まり、ダブルブッキングを防げます。
+        自動セットアップ完了後、お客様のGoogleドライブ上のシステムをWebアプリとして公開し、利用を開始するまでの手順をご案内します。
       </p>
+    </header>
 
-      <h3>予約の一覧・印刷</h3>
-      <p>
-        予約一覧上部の「印刷」ボタンを押すと、本日の受付用名簿がA4サイズで綺麗に印刷できます。
-      </p>
+    <div class="container">
+      <div class="intro-card">
+        <strong>1クリック自動セットアップ</strong>により、お客様の Google
+        ドライブ内に専用の「管理台帳スプレッドシート」および「予約システムプログラム」が構築されました。<br />
+        以下の
+        <strong>4つのステップ</strong>
+        に沿って設定を行うと、すぐにご利用を開始できます。
 
-      <h3>キャンセル処理</h3>
-      <p>
-        キャンセルの際はスプレッドシートを直接手動削除せず、必ず管理画面の「キャンセル」ボタンから操作を行ってください。
-      </p>
+        <div class="toc">
+          <div class="toc-title">📋 手順一覧</div>
+          <ul>
+            <li>
+              <a href="#step1">STEP 1：作成されたスプレッドシートを開く</a>
+            </li>
+            <li>
+              <a href="#step2">STEP 2：Webアプリとして公開（デプロイ）する</a>
+            </li>
+            <li><a href="#step3">STEP 3：Googleアカウントのアクセス承認</a></li>
+            <li><a href="#step4">STEP 4：URLを開いてライセンス認証する</a></li>
+            <li><a href="#faq">よくあるご質問（トラブルシューティング）</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 1 -->
+      <section id="step1" class="step-card">
+        <div class="step-header">
+          <span class="step-badge">STEP 1</span>
+          <h2>作成されたスプレッドシートを開く</h2>
+        </div>
+        <ol class="procedure">
+          <li>
+            セットアップ完了画面に表示されている緑色のボタン<strong>「作成されたシステム（スプレッドシート）を開く」</strong>をクリックします。
+            <div class="note-box">
+              画面を閉じてしまった場合は、<a
+                href="https://drive.google.com/"
+                target="_blank"
+                rel="noopener"
+                >Google ドライブ</a
+              >
+              を開き、マイドライブ直下にある<strong>「【本番用】施設利用予約管理システム」</strong>（またはセットアップ時に指定したファイル名）を開いてください。
+            </div>
+          </li>
+          <li>
+            スプレッドシートが開いたら、上部メニューの<strong
+              >「拡張機能」＞「Apps Script」</strong
+            >をクリックします。
+            <div class="note-box">
+              ※
+              開いた直後はメニューの読み込みに数秒かかります。「拡張機能」が薄いグレーのままの場合は、5秒ほど待ってからクリックしてください。
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- STEP 2 -->
+      <section id="step2" class="step-card">
+        <div class="step-header">
+          <span class="step-badge">STEP 2</span>
+          <h2>Webアプリとして公開（デプロイ）する</h2>
+        </div>
+        <p style="font-size: 14px; color: var(--text-sub); margin-top: 0">
+          新しいタブでプログラム画面（Apps Script
+          エディター）が開きます。画面内のコードは変更せず、以下の手順で Web
+          アプリ化を行います。
+        </p>
+        <ol class="procedure">
+          <li>
+            画面右上の青いボタン<strong>「デプロイ」＞「新しいデプロイ」</strong>をクリックします。
+          </li>
+          <li>
+            ダイアログ左上の<strong>歯車アイコン（種類の選択）</strong>をクリックし、<strong>「ウェブアプリ」</strong>を選択します。
+          </li>
+          <li>
+            以下の2項目を設定します（説明欄は空欄のままで構いません）。
+            <ul class="config-list">
+              <li>
+                <strong>・次のユーザーとして実行：</strong>
+                <strong>自分</strong>（お客様のGoogleアカウント）
+              </li>
+              <li>
+                <strong>・アクセスできるユーザー：</strong>
+                <strong>全員</strong>
+              </li>
+            </ul>
+            <div class="warning-box">
+              <strong>⚠️ 重要：</strong
+              >「アクセスできるユーザー」を必ず<strong>「全員」</strong>にしてください。「自分のみ」のままだと、予約画面や施設スタッフ用のURLが開けません。お客様の施設データ自体は、このあと入力する「ライセンスキー」と「管理者パスワード」で保護されますのでご安心ください。
+            </div>
+          </li>
+          <li>右下の<strong>「デプロイ」</strong>ボタンをクリックします。</li>
+        </ol>
+      </section>
+
+      <!-- STEP 3 -->
+      <section id="step3" class="step-card">
+        <div class="step-header">
+          <span class="step-badge">STEP 3</span>
+          <h2>Google アカウントのアクセス承認を行う（初回のみ）</h2>
+        </div>
+        <p style="font-size: 14px; color: var(--text-sub); margin-top: 0">
+          「デプロイ」を押すと、スプレッドシートへの読み書きやメール送信を許可するための確認画面が自動で表示されます。
+        </p>
+        <ol class="procedure">
+          <li>
+            <strong>「アクセスを承認」</strong>ボタンをクリックし、ご自身の
+            Google アカウントを選択します。
+          </li>
+          <li>
+            <strong>「このアプリは Google で確認されていません」</strong
+            >という警告画面が表示された場合は、以下の順に進んでください（お客様ご自身のGoogleドライブ内で動く専用プログラムのため安全です）。
+            <ol class="sub-steps">
+              <li>画面左下の<strong>「詳細」</strong>をクリックします。</li>
+              <li>
+                一番下に表示される<strong>「（プロジェクト名）（安全ではないページ）に移動」</strong>をクリックします。
+              </li>
+            </ol>
+          </li>
+          <li>
+            権限の確認画面が表示されたら、一番下までスクロールして<strong>「続行」</strong>（または「許可」）をクリックします。
+          </li>
+        </ol>
+      </section>
+
+      <!-- STEP 4 -->
+      <section id="step4" class="step-card">
+        <div class="step-header">
+          <span class="step-badge">STEP 4</span>
+          <h2>発行された URL を開いてライセンス認証する</h2>
+        </div>
+        <ol class="procedure">
+          <li>
+            承認が完了すると、「デプロイを更新しました」という画面に<strong
+              >「ウェブアプリ URL」</strong
+            >（<code>https://script.google.com/macros/s/〇〇〇/exec</code>）が表示されます。
+          </li>
+          <li>
+            URL
+            の下にある<strong>「コピー」</strong>ボタンを押し、新しいブラウザタブに貼り付けて開きます（ブックマーク登録をおすすめします）。
+            <div class="note-box">
+              💡 パソコンのデスクトップに起動アイコンを作りたい場合は、<a
+                href="setup.html"
+                >セットアップ画面</a
+              >
+              の完了エリア下部にある入力欄にこの URL
+              を貼り付けるとショートカットファイル（<code>.url</code>）を保存できます。
+            </div>
+          </li>
+          <li>
+            システムの起動画面が表示されたら、ご案内メールに記載されている<strong>「ライセンスキー」</strong>を入力して<strong>「認証して開始」</strong>をクリックします。
+          </li>
+          <li>
+            施設の基本情報や部屋マスタを設定し、すぐにご利用いただけます！
+          </li>
+        </ol>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="faq-section">
+        <h2>❓ よくあるご質問（トラブルシューティング）</h2>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            Q. 「ドライブでファイルを開けませんでした」とエラーが出ます
+          </div>
+          <p class="faq-a">
+            A. 同じブラウザで複数の Google
+            アカウント（個人用と仕事用など）に同時ログインしていると、Google
+            の仕様によりエラーが発生することがあります。ブラウザのシークレットウィンドウを開くか、システムを設置した
+            Google アカウントのみにログインした状態で再度開いてください。
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            Q. ウェブアプリ URL の画面を閉じてもう一度確認したいときは？
+          </div>
+          <p class="faq-a">
+            A. スプレッドシートの<strong>「拡張機能」＞「Apps Script」</strong
+            >を開き、右上の<strong>「デプロイ」＞「デプロイを管理」</strong>をクリックすると、発行済みのウェブアプリ
+            URL をいつでも確認・コピーできます。
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            Q. 無料お試し期間が終了したあと、製品版へ切り替えるには？
+          </div>
+          <p class="faq-a">
+            A.
+            ご契約後にお送りする「製品版ライセンスキー」をシステム内のライセンス管理画面（または起動画面）に入力するだけで、お試し期間中に登録した部屋データや予約履歴をすべて引き継いだまま継続利用できます。
+          </p>
+        </div>
+      </section>
     </div>
 
-    <!-- 3. データ・復元 -->
-    <h2 id="backup-csv">🛡️ 3. データ出力・万が一の復元</h2>
-    <div class="card">
-      <h3>CSVダウンロード</h3>
-      <p>「CSV」ボタンから指定日の予約データをエクスポート可能です。</p>
-
-      <h3>データ復元（自動バックアップ）</h3>
+    <footer>
       <p>
-        誤操作時等は、マイドライブ内の「施設予約システム_バックアップ一覧」フォルダから過去14日分のバックアップファイルを確認・復元できます。
+        <a href="lp.html">製品トップページ（LP）</a> |
+        <a href="setup.html">1クリック自動セットアップ</a>
       </p>
-    </div>
-
-    <!-- 注意事項 -->
-    <div class="alert-box">
-      <strong>💡 運用上の注意:</strong><br />
-      スプレッドシート上の行を直接消去すると通知メール送信やシステムログとの整合性が取れなくなるため、全ての操作は管理画面から行っていただくことを推奨します。
-    </div>
-
-    <!-- JSでの安全なページ内スクロール処理 -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var links = document.querySelectorAll('.nav-menu a[href^="#"]');
-        links.forEach(function (link) {
-          link.addEventListener("click", function (e) {
-            e.preventDefault();
-            var targetId = this.getAttribute("href").substring(1);
-            var targetElem = document.getElementById(targetId);
-            if (targetElem) {
-              targetElem.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          });
-        });
-      });
-    </script>
+      <p>&copy; 施設利用予約・管理システム 運営事務局</p>
+    </footer>
   </body>
 </html>
